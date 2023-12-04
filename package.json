@@ -11,13 +11,17 @@
 	"license": "ISC",
 	"dependencies": {
 		"@nestjs/common": "^10.2.10",
+		"@nestjs/config": "^3.1.1",
 		"@nestjs/core": "^10.2.10",
 		"@nestjs/microservices": "^10.2.10",
 		"@nestjs/platform-express": "^10.2.10",
-		"qqlx-cdk": "^0.0.18",
-		"qqlx-core": "^2.0.10",
-		"qqlx-sdk": "^0.0.50",
+		"@nestjs/typeorm": "^10.0.1",
+		"pg": "^8.11.3",
+		"qqlx-cdk": "^0.0.28",
+		"qqlx-core": "^2.0.18",
+		"qqlx-sdk": "^0.0.52",
 		"reflect-metadata": "^0.1.13",
-		"rxjs": "^7.8.1"
+		"rxjs": "^7.8.1",
+		"typeorm": "^0.3.17"
 	}
 }

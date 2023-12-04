@@ -1,21 +1,35 @@
-import { Controller, Query, Body, Get, Patch } from "@nestjs/common";
+import { Controller, Query, Body, Get, Post, Patch } from "@nestjs/common";
 
-import { PondNode, } from "qqlx-core";
-import { toNumber, toString } from "qqlx-cdk";
+import {
+    PondLog, PondNode,
+    POND_LOG_PATH,
+    getPondLogDto, getPondLogRes, postPondLogDto, postPondLogRes
+} from "qqlx-core";
+import { toNumber, toString, ToResponse } from "qqlx-cdk";
 import { getLocalNetworkIPs } from "qqlx-sdk";
 
+import { PondLogDao } from "./log.dao";
+
 @Controller()
-export default class {
-    cache = new Map<string, PondNode>()
+export class PondLogController {
 
-    constructor() {
+    constructor(private readonly PondLogDao: PondLogDao) {
     }
 
-    @Get()
-    async get (@Query() query: Record<string, string>) {
+    @Post(POND_LOG_PATH + '/get')
+    @ToResponse()
+    async get (@Body() request: getPondLogDto<PondLog>) {
+        // const { page, search } = request
+        const page = this.PondLogDao.getPageDto()
+        const results = await this.PondLogDao.page(page)
+
+        return results
     }
 
-    @Patch()
-    async patch (@Body() body: PondNode) {
+    @Patch(POND_LOG_PATH)
+    @ToResponse()
+    async patch (@Body() body: postPondLogDto): Promise<postPondLogRes> {
+        await this.PondLogDao.insertOne(body.dto)
+        return null
     }
 }
