@@ -7,9 +7,9 @@ import { PondLogSchema } from "qqlx-cdk"
 import { getLocalNetworkIPs, PondNodeService } from "qqlx-sdk";
 
 import { HTTP_PORT } from "./const";
-import { DbConnectionModule } from "./dao/connection"
-import { PondLogController } from "./model/log.controller";
-import { PondLogDao } from "./model/log.dao";
+import { DbConnectionModule } from "./dao/_"
+import { PondLogController } from "./log/controller.rest";
+import { PondLogDao } from "./dao/log";
 
 @Module({
     imports: [

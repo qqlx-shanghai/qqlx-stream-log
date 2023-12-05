@@ -8,7 +8,7 @@ import {
 import { toNumber, toString, ToResponse } from "qqlx-cdk";
 import { getLocalNetworkIPs } from "qqlx-sdk";
 
-import { PondLogDao } from "./log.dao";
+import { PondLogDao } from "../dao/log";
 
 @Controller()
 export class PondLogController {
