@@ -1,58 +1,52 @@
 import { Module, Injectable } from "@nestjs/common";
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { TypeOrmModule } from "@nestjs/typeorm";
 
-import { PondNode, SHANGHAI_PG_SERVICE_NAME, POND_LOG_SERVICE_NAME } from "qqlx-core"
-import { PondLogSchema } from "qqlx-cdk"
-import { getLocalNetworkIPs, PondNodeService } from "qqlx-sdk";
+import { PondDropet, SHANGHAI_POSTGRESQL_DROPET, POND_LOG_DROPET } from "qqlx-core";
+import { PondLogSchema } from "qqlx-cdk";
+import { getLocalNetworkIPs, PondDropetMessenger } from "qqlx-sdk";
 
-import { HTTP_PORT } from "./const";
-import { DbConnectionModule } from "./dao/_"
+import { DropletModule } from "./droplet/module";
 import { PondLogController } from "./log/controller.rest";
-import { PondLogDao } from "./dao/log";
+import { PondLogDao } from "./log/dao";
 
 @Module({
     imports: [
         TypeOrmModule.forRootAsync({
-            imports: [DbConnectionModule],
-            useFactory: async (pondNodeService: PondNodeService) => {
-
+            imports: [DropletModule],
+            useFactory: async (pondDropetMessenger: PondDropetMessenger) => {
                 // 1.建立数据库链接
-                const node_db = await pondNodeService.getService({ keyword: SHANGHAI_PG_SERVICE_NAME })
-                const username = node_db.node?.text?.split(";")[0]
-                const passwd = node_db.node?.text?.split(";")[1]
-                console.log(`1.建立数据库链接 成功`)
+                const node_db = await pondDropetMessenger.get({ name: SHANGHAI_POSTGRESQL_DROPET });
+                const username = node_db.dropet?.text?.split(";")[0];
+                const passwd = node_db.dropet?.text?.split(";")[1];
+                console.log(`1.从 pond-droplet 成功取得数据库`);
 
                 // 2.推送服务信息
-                const ips = getLocalNetworkIPs()
-                const node: PondNode = {
-                    name: POND_LOG_SERVICE_NAME,
+                const ips = getLocalNetworkIPs();
+                const dropet: PondDropet = {
+                    name: POND_LOG_DROPET,
                     lan_ip: ips[0].ip,
-                    port: HTTP_PORT
-                }
-                await pondNodeService.patchService({ key: POND_LOG_SERVICE_NAME, node })
-                console.log(`2.推送服务信息 成功`)
+                    port: 1002,
+                };
+                await pondDropetMessenger.patch({ name: POND_LOG_DROPET, dropet });
+                console.log(`2.共享 pond-log 成功`);
 
                 return {
                     type: "postgres",
-                    host: node_db.node?.lan_ip,
-                    port: node_db.node?.port,
+                    host: node_db.dropet?.lan_ip,
+                    port: node_db.dropet?.port,
                     username: username,
                     password: passwd,
-                    database: node_db.node?.name,
+                    database: node_db.dropet?.name,
                     logging: false,
                     entities: [PondLogSchema],
                 };
             },
-            inject: [PondNodeService],
+            inject: [PondDropetMessenger],
         }),
-        TypeOrmModule.forFeature([PondLogSchema])
+        TypeOrmModule.forFeature([PondLogSchema]),
     ],
-    controllers: [
-        PondLogController
-    ],
-    providers: [
-        PondNodeService, PondLogDao
-    ],
+    controllers: [PondLogController],
+    providers: [PondLogDao],
 })
-export class AppModule { }
+export class AppModule {}
