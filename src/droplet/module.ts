@@ -1,9 +1,9 @@
 import { Module, Injectable } from "@nestjs/common";
 
-import { PondDropetMessenger } from "qqlx-sdk";
+import { PondDropletMessenger } from "qqlx-sdk";
 
 @Module({
-    providers: [PondDropetMessenger],
-    exports: [PondDropetMessenger],
+    providers: [PondDropletMessenger],
+    exports: [PondDropletMessenger],
 })
-export class DropletModule {}
+export class DropletModule { }
