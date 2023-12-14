@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 
 import { Repository } from "typeorm";
 
-import { RELATIONS_POND_LOG_NAME } from "qqlx-core";
+import { RELATIONS_POND_LOG } from "qqlx-core";
 import { toNumber, toString, PondLogSchema } from "qqlx-cdk";
 import { getLocalNetworkIPs, PgDao } from "qqlx-sdk";
 
@@ -15,7 +15,7 @@ export class PondLogDao extends PgDao<PondLogSchema> {
     ) {
         super({
             repository: pondLogRepository,
-            relations_name: RELATIONS_POND_LOG_NAME,
+            relations_name: RELATIONS_POND_LOG,
         });
     }
 }
