@@ -4,16 +4,17 @@ import { PondLog, PATH_POND_LOG, getPondLogDto, getPondLogRes, postPondLogDto, p
 import { toNumber, toString, ToResponse, getPageDto } from "qqlx-cdk";
 import { getLocalNetworkIPs, DropletLocationMessenger } from "qqlx-sdk";
 
-import { PondLogDao } from "./dao";
+import { PondLogDao } from "./log.dao";
 
 @Injectable()
 export class PondLogService {
-    constructor(private readonly DropletLocationMessenger: DropletLocationMessenger, private readonly PondLogDao: PondLogDao) {}
+    constructor(
+        //
+        private readonly PondLogDao: PondLogDao
+    ) {}
 
     async get(dto: getPondLogDto<PondLog>) {
-        await this.DropletLocationMessenger.get({ key: "965" });
-        // const { page } = dto
-        const page = getPageDto<PondLog>();
+        const { page } = dto;
         const results = await this.PondLogDao.page(page);
 
         return results;
