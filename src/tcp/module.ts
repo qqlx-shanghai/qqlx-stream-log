@@ -2,9 +2,9 @@ import { Module, Injectable } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
-import { DropletLocation, SHANGHAI_POSTGRESQL_DROPLET, DROPLET_POND_LOG } from "qqlx-core";
+import { DropletHost, SHANGHAI_POSTGRESQL_DROPLET, DROPLET_POND_LOG } from "qqlx-core";
 import { PondLogSchema } from "qqlx-cdk";
-import { getLocalNetworkIPs, DropletLocationMessenger } from "qqlx-sdk";
+import { getLocalNetworkIPs, DropletHostMessenger } from "qqlx-sdk";
 
 import { DropletModule } from "../_/droplet.module";
 import PondLogController from "./log.controller";
@@ -20,8 +20,8 @@ import { PondLogDao } from "../rest/log.dao";
     imports: [
         TypeOrmModule.forRootAsync({
             imports: [DropletModule],
-            inject: [DropletLocationMessenger],
-            useFactory: async (pondDropletMessenger: DropletLocationMessenger) => {
+            inject: [DropletHostMessenger],
+            useFactory: async (pondDropletMessenger: DropletHostMessenger) => {
                 const node_db = await pondDropletMessenger.get({ key: SHANGHAI_POSTGRESQL_DROPLET });
                 const mess = node_db.droplet?.remark?.split(";") || [];
                 const dbname = mess[0];
@@ -32,7 +32,7 @@ import { PondLogDao } from "../rest/log.dao";
                 console.log(`droplet-location:get - ${SHANGHAI_POSTGRESQL_DROPLET}:${node_db.droplet?.lan_ip}:${node_db.droplet?.port}`);
 
                 const ips = getLocalNetworkIPs();
-                const droplet: DropletLocation = pondDropletMessenger.getSchema();
+                const droplet: DropletHost = pondDropletMessenger.getSchema();
                 droplet.lan_ip = ips[0].ip;
                 droplet.port = 1002;
                 pondDropletMessenger.keepAlive(DROPLET_POND_LOG, droplet); // async
@@ -53,7 +53,7 @@ import { PondLogDao } from "../rest/log.dao";
         }),
         TypeOrmModule.forFeature([PondLogSchema]),
     ],
-    providers: [DropletLocationMessenger, PondLogDao, PondLogService],
+    providers: [DropletHostMessenger, PondLogDao, PondLogService],
     controllers: [PondLogController],
 })
-export class TcpModule {}
+export class TcpModule { }

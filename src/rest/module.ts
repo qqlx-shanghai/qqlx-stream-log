@@ -2,9 +2,9 @@ import { Module, Injectable } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
-import { DropletLocation, SHANGHAI_POSTGRESQL_DROPLET, DROPLET_POND_LOG } from "qqlx-core";
+import { DropletHost, SHANGHAI_POSTGRESQL_DROPLET, DROPLET_POND_LOG } from "qqlx-core";
 import { PondLogSchema } from "qqlx-cdk";
-import { getLocalNetworkIPs, DropletLocationMessenger, PondUserMessenger } from "qqlx-sdk";
+import { getLocalNetworkIPs, DropletHostMessenger, StreamUserMessenger } from "qqlx-sdk";
 
 import { DropletModule } from "../_/droplet.module";
 import PondLogController from "./log.controller";
@@ -21,8 +21,8 @@ import { PondLogDao } from "./log.dao";
     imports: [
         TypeOrmModule.forRootAsync({
             imports: [DropletModule],
-            inject: [DropletLocationMessenger],
-            useFactory: async (pondDropletMessenger: DropletLocationMessenger) => {
+            inject: [DropletHostMessenger],
+            useFactory: async (pondDropletMessenger: DropletHostMessenger) => {
                 const node_db = await pondDropletMessenger.get({ key: SHANGHAI_POSTGRESQL_DROPLET });
                 const mess = node_db.droplet?.remark?.split(";") || [];
                 const dbname = mess[0];
@@ -47,7 +47,7 @@ import { PondLogDao } from "./log.dao";
         }),
         TypeOrmModule.forFeature([PondLogSchema]),
     ],
-    providers: [DropletLocationMessenger, PondUserMessenger, PondLogDao, PondLogService],
+    providers: [DropletHostMessenger, StreamUserMessenger, PondLogDao, PondLogService],
     controllers: [PondLogController],
 })
-export class RestModule {}
+export class RestModule { }
