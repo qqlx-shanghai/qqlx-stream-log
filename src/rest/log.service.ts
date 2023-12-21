@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 
 import { PondLog, PATH_POND_LOG, getPondLogDto, getPondLogRes, postPondLogDto, postPondLogRes } from "qqlx-core";
 import { toNumber, toString, ToResponse, getPageDto } from "qqlx-cdk";
-import { getLocalNetworkIPs, DropletHostMessenger } from "qqlx-sdk";
+import { getLocalNetworkIPs } from "qqlx-sdk";
 
 import { PondLogDao } from "./log.dao";
 

@@ -1,14 +1,14 @@
 import { NestFactory } from "@nestjs/core";
 import { MicroserviceOptions, Transport } from "@nestjs/microservices";
 
-import {} from "qqlx-core";
+import { } from "qqlx-core";
 import { toNumber, toString, toBoolean } from "qqlx-cdk";
 import { getLocalNetworkIPs } from "qqlx-sdk";
 
 import { RestModule } from "./rest/module";
 import { TcpModule } from "./tcp/module";
 
-async function bootstrap() {
+async function bootstrap () {
     const TCP_PORT = 1002;
     const HTTP_PORT = 2002;
 
@@ -24,13 +24,9 @@ async function bootstrap() {
     await app.listen(HTTP_PORT);
 
     // System tips
-    console.log("\n---- ---- ---- main.ts");
-    const ipstrs = Object.values(getLocalNetworkIPs()[0] || {})
-        .reverse()
-        .join(".");
-    console.log(`qqlx-pond-log:ip: ${ipstrs}`);
-    console.log(`qqlx-pond-log:tcp: ${TCP_PORT}`);
-    console.log(`qqlx-pond-log:http: ${HTTP_PORT}`);
-    console.log("---- ---- ---- \nrunning success!");
+    console.log("\n---- ---- ---- main.ts @qqlx-droplet-host");
+    const ips = getLocalNetworkIPs();
+    for (const ip of ips) console.log(`${Object.values(ip).reverse().join(".")}`);
+    console.log(`---- ---- ---- success on @tcp:${TCP_PORT} @http:${HTTP_PORT}`);
 }
 bootstrap();

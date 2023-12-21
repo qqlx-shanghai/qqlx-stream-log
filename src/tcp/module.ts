@@ -23,13 +23,13 @@ import { PondLogDao } from "../rest/log.dao";
             inject: [DropletHostMessenger],
             useFactory: async (pondDropletMessenger: DropletHostMessenger) => {
                 const node_db = await pondDropletMessenger.get({ key: SHANGHAI_POSTGRESQL_DROPLET });
-                const mess = node_db.droplet?.remark?.split(";") || [];
+                const mess = node_db?.remark?.split(";") || [];
                 const dbname = mess[0];
                 const username = mess[1];
                 const passwd = mess[2];
 
                 console.log("\n---- ---- ---- tcp.module.ts");
-                console.log(`droplet-location:get - ${SHANGHAI_POSTGRESQL_DROPLET}:${node_db.droplet?.lan_ip}:${node_db.droplet?.port}`);
+                console.log(`droplet-location:get - ${SHANGHAI_POSTGRESQL_DROPLET}:${node_db?.lan_ip}:${node_db?.port}`);
 
                 const ips = getLocalNetworkIPs();
                 const droplet: DropletHost = pondDropletMessenger.getSchema();
@@ -41,8 +41,8 @@ import { PondLogDao } from "../rest/log.dao";
 
                 return {
                     type: "postgres",
-                    host: node_db.droplet?.lan_ip,
-                    port: node_db.droplet?.port,
+                    host: node_db?.lan_ip,
+                    port: node_db?.port,
                     username: username,
                     password: passwd,
                     database: dbname,
