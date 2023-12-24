@@ -1,29 +1,28 @@
 import { Controller, Query, Body, Get, Post, Patch, UseGuards } from "@nestjs/common";
 
-import { PondLog, PATH_POND_LOG, getPondLogDto, getPondLogRes, postPondLogDto, postPondLogRes } from "qqlx-core";
+import { StreamLog, PATH_STREAM_LOG, getStreamLogDto, getStreamLogRes, postStreamLogDto, postStreamLogRes } from "qqlx-core";
 import { toNumber, toString, ToResponse, getPageDto } from "qqlx-cdk";
 import { getLocalNetworkIPs, UserGuard } from "qqlx-sdk";
 
-import { PondLogDao } from "./log.dao";
-import { PondLogService } from "./log.service";
+import { StreamLogDao } from "./log.dao";
+import { StreamLogService } from "./log.service";
 
-@Controller(PATH_POND_LOG)
-@UseGuards(UserGuard)
+@Controller(PATH_STREAM_LOG)
 export default class {
     constructor(
         //
-        private readonly PondLogService: PondLogService
-    ) { }
+        private readonly StreamLogService: StreamLogService
+    ) {}
 
-    @Patch()
+    @Post()
     @ToResponse()
-    async patch (@Body() dto: postPondLogDto): Promise<postPondLogRes> {
-        return this.PondLogService.patch(dto);
+    async post(@Body() dto: postStreamLogDto): Promise<postStreamLogRes> {
+        return this.StreamLogService.post(dto);
     }
 
     @Post("/get")
     @ToResponse()
-    async get (@Body() dto: getPondLogDto<PondLog>) {
-        return this.PondLogService.get(dto);
+    async get(@Body() dto: getStreamLogDto<StreamLog>) {
+        return this.StreamLogService.get(dto);
     }
 }

@@ -2,14 +2,14 @@ import { Module, Injectable } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
-import { DropletHost, SHANGHAI_POSTGRESQL_DROPLET, DROPLET_POND_LOG } from "qqlx-core";
-import { PondLogSchema } from "qqlx-cdk";
-import { getLocalNetworkIPs, DropletHostMessenger, StreamUserMessenger } from "qqlx-sdk";
+import { DropletHost, SHANGHAI_POSTGRESQL_DROPLET, DROPLET_STREAM_LOG } from "qqlx-core";
+import { StreamLogSchema } from "qqlx-cdk";
+import { getLocalNetworkIPs, DropletHostMessenger } from "qqlx-sdk";
 
 import { DropletModule } from "../_/droplet.module";
-import PondLogController from "./log.controller";
-import { PondLogService } from "./log.service";
-import { PondLogDao } from "./log.dao";
+import StreamLogController from "./log.controller";
+import { StreamLogService } from "./log.service";
+import { StreamLogDao } from "./log.dao";
 
 /** 相关解释
  * @imports 导入一个模块中 exports 的内容，放入公共资源池中
@@ -41,13 +41,13 @@ import { PondLogDao } from "./log.dao";
                     password: passwd,
                     database: dbname,
                     logging: false,
-                    entities: [PondLogSchema],
+                    entities: [StreamLogSchema],
                 };
             },
         }),
-        TypeOrmModule.forFeature([PondLogSchema]),
+        TypeOrmModule.forFeature([StreamLogSchema]),
     ],
-    providers: [DropletHostMessenger, StreamUserMessenger, PondLogDao, PondLogService],
-    controllers: [PondLogController],
+    providers: [DropletHostMessenger, StreamLogDao, StreamLogService],
+    controllers: [StreamLogController],
 })
-export class RestModule { }
+export class RestModule {}

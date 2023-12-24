@@ -2,14 +2,14 @@ import { Module, Injectable } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
-import { DropletHost, SHANGHAI_POSTGRESQL_DROPLET, DROPLET_POND_LOG } from "qqlx-core";
-import { PondLogSchema } from "qqlx-cdk";
+import { DropletHost, SHANGHAI_POSTGRESQL_DROPLET, DROPLET_STREAM_LOG } from "qqlx-core";
+import { StreamLogSchema } from "qqlx-cdk";
 import { getLocalNetworkIPs, DropletHostMessenger } from "qqlx-sdk";
 
 import { DropletModule } from "../_/droplet.module";
-import PondLogController from "./log.controller";
-import { PondLogService } from "../rest/log.service";
-import { PondLogDao } from "../rest/log.dao";
+import StreamLogController from "./log.controller";
+import { StreamLogService } from "../rest/log.service";
+import { StreamLogDao } from "../rest/log.dao";
 
 /** 相关解释
  * @imports 导入一个模块中 exports 的内容，放入公共资源池中
@@ -35,8 +35,8 @@ import { PondLogDao } from "../rest/log.dao";
                 const droplet: DropletHost = pondDropletMessenger.getSchema();
                 droplet.lan_ip = ips[0].ip;
                 droplet.port = 1002;
-                pondDropletMessenger.keepAlive(DROPLET_POND_LOG, droplet); // async
-                console.log(`droplet-location:patch ing... - ${DROPLET_POND_LOG}:${droplet.lan_ip}:${droplet.port}`);
+                pondDropletMessenger.keepAlive(DROPLET_STREAM_LOG, droplet); // async
+                console.log(`droplet-location:patch ing... - ${DROPLET_STREAM_LOG}:${droplet.lan_ip}:${droplet.port}`);
                 console.log("---- ---- ----\n");
 
                 return {
@@ -47,13 +47,13 @@ import { PondLogDao } from "../rest/log.dao";
                     password: passwd,
                     database: dbname,
                     logging: false,
-                    entities: [PondLogSchema],
+                    entities: [StreamLogSchema],
                 };
             },
         }),
-        TypeOrmModule.forFeature([PondLogSchema]),
+        TypeOrmModule.forFeature([StreamLogSchema]),
     ],
-    providers: [DropletHostMessenger, PondLogDao, PondLogService],
-    controllers: [PondLogController],
+    providers: [DropletHostMessenger, StreamLogDao, StreamLogService],
+    controllers: [StreamLogController],
 })
-export class TcpModule { }
+export class TcpModule {}

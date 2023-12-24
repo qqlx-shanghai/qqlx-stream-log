@@ -1,22 +1,23 @@
 import { Controller, Query, Body, Get, Post, Patch } from "@nestjs/common";
 import { EventPattern, MessagePattern } from "@nestjs/microservices";
 
-import { PondLog, PATH_POND_LOG, getPondLogDto, getPondLogRes, postPondLogDto, postPondLogRes } from "qqlx-core";
+import { StreamLog, PATH_STREAM_LOG, getStreamLogDto, getStreamLogRes, postStreamLogDto, postStreamLogRes } from "qqlx-core";
 import { toNumber, toString, ToResponse, getPageDto } from "qqlx-cdk";
 import { getLocalNetworkIPs } from "qqlx-sdk";
 
-import { PondLogDao } from "../rest/log.dao";
-import { PondLogService } from "../rest/log.service";
+import { StreamLogDao } from "../rest/log.dao";
+import { StreamLogService } from "../rest/log.service";
 
 @Controller()
 export default class {
     constructor(
         //
-        private readonly PondLogService: PondLogService) { }
+        private readonly StreamLogService: StreamLogService
+    ) {}
 
-    @MessagePattern(`${PATH_POND_LOG}/patch`)
+    @MessagePattern(`${PATH_STREAM_LOG}/patch`)
     @ToResponse()
-    async patch (@Body() dto: postPondLogDto): Promise<postPondLogRes> {
-        return this.PondLogService.patch(dto);
+    async patch(@Body() dto: postStreamLogDto): Promise<postStreamLogRes> {
+        return this.StreamLogService.post(dto);
     }
 }

@@ -3,19 +3,19 @@ import { InjectRepository } from "@nestjs/typeorm";
 
 import { Repository } from "typeorm";
 
-import { PondLog, RELATIONS_POND_LOG } from "qqlx-core";
-import { toNumber, toString, PondLogSchema } from "qqlx-cdk";
+import { StreamLog, RELATIONS_STREAM_LOG } from "qqlx-core";
+import { toNumber, toString, StreamLogSchema } from "qqlx-cdk";
 import { getLocalNetworkIPs, PgDao } from "qqlx-sdk";
 
 @Injectable()
-export class PondLogDao extends PgDao<PondLog> {
+export class StreamLogDao extends PgDao<StreamLog> {
     constructor(
-        @InjectRepository(PondLogSchema)
-        private readonly pondLogRepository: Repository<PondLogSchema>
+        @InjectRepository(StreamLogSchema)
+        private readonly pondLogRepository: Repository<StreamLogSchema>
     ) {
         super({
             repository: pondLogRepository,
-            relations_name: RELATIONS_POND_LOG,
+            relations_name: RELATIONS_STREAM_LOG,
         });
     }
 }

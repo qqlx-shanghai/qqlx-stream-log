@@ -1,27 +1,27 @@
 import { Injectable } from "@nestjs/common";
 
-import { PondLog, PATH_POND_LOG, getPondLogDto, getPondLogRes, postPondLogDto, postPondLogRes } from "qqlx-core";
+import { StreamLog, PATH_STREAM_LOG, getStreamLogDto, getStreamLogRes, postStreamLogDto, postStreamLogRes } from "qqlx-core";
 import { toNumber, toString, ToResponse, getPageDto } from "qqlx-cdk";
 import { getLocalNetworkIPs } from "qqlx-sdk";
 
-import { PondLogDao } from "./log.dao";
+import { StreamLogDao } from "./log.dao";
 
 @Injectable()
-export class PondLogService {
+export class StreamLogService {
     constructor(
         //
-        private readonly PondLogDao: PondLogDao
-    ) { }
+        private readonly StreamLogDao: StreamLogDao
+    ) {}
 
-    async get (dto: getPondLogDto<PondLog>) {
+    async get(dto: getStreamLogDto<StreamLog>) {
         const { page } = dto;
-        const results = await this.PondLogDao.page(page);
+        const results = await this.StreamLogDao.page(page);
 
         return results;
     }
 
-    async patch (dto: postPondLogDto): Promise<postPondLogRes> {
-        await this.PondLogDao.insertOne(dto.schema);
+    async post(dto: postStreamLogDto): Promise<postStreamLogRes> {
+        await this.StreamLogDao.insertOne(dto.schema);
         return null;
     }
 }
