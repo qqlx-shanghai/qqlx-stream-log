@@ -11,16 +11,13 @@ export class StreamLogService {
     constructor(
         //
         private readonly StreamLogDao: StreamLogDao
-    ) {}
+    ) { }
 
-    async get(dto: getStreamLogDto<StreamLog>) {
-        const { page } = dto;
-        const results = await this.StreamLogDao.page(page);
-
-        return results;
+    async get (dto: getStreamLogDto<StreamLog>) {
+        return this.StreamLogDao.page(dto);
     }
 
-    async post(dto: postStreamLogDto): Promise<postStreamLogRes> {
+    async post (dto: postStreamLogDto): Promise<postStreamLogRes> {
         await this.StreamLogDao.insertOne(dto.schema);
         return null;
     }

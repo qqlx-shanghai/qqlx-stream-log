@@ -11,10 +11,10 @@ import { getLocalNetworkIPs, PgDao } from "qqlx-sdk";
 export class StreamLogDao extends PgDao<StreamLog> {
     constructor(
         @InjectRepository(StreamLogSchema)
-        private readonly pondLogRepository: Repository<StreamLogSchema>
+        private readonly StreamLogRepository: Repository<StreamLogSchema>
     ) {
         super({
-            repository: pondLogRepository,
+            repository: StreamLogRepository,
             relations_name: RELATIONS_STREAM_LOG,
         });
     }

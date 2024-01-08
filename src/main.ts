@@ -1,16 +1,16 @@
 import { NestFactory } from "@nestjs/core";
 import { MicroserviceOptions, Transport } from "@nestjs/microservices";
 
-import {} from "qqlx-core";
+import { } from "qqlx-core";
 import { toNumber, toString, toBoolean } from "qqlx-cdk";
 import { getLocalNetworkIPs } from "qqlx-sdk";
 
 import { RestModule } from "./rest/module";
 import { TcpModule } from "./tcp/module";
+import { TCP_PORT } from "./tcp/_"
+import { HTTP_PORT } from "./rest/_"
 
-async function bootstrap() {
-    const TCP_PORT = 6002;
-    const HTTP_PORT = 8002;
+async function bootstrap () {
 
     // 对内的微服务
     const microservice = await NestFactory.createMicroservice<MicroserviceOptions>(TcpModule, {

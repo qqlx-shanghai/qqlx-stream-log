@@ -12,17 +12,11 @@ export default class {
     constructor(
         //
         private readonly StreamLogService: StreamLogService
-    ) {}
-
-    @Post()
-    @ToResponse()
-    async post(@Body() dto: postStreamLogDto): Promise<postStreamLogRes> {
-        return this.StreamLogService.post(dto);
-    }
+    ) { }
 
     @Post("/get")
     @ToResponse()
-    async get(@Body() dto: getStreamLogDto<StreamLog>) {
+    async get (@Body() dto: getStreamLogDto<StreamLog>) {
         return this.StreamLogService.get(dto);
     }
 }

@@ -13,11 +13,11 @@ export default class {
     constructor(
         //
         private readonly StreamLogService: StreamLogService
-    ) {}
+    ) { }
 
-    @MessagePattern(`${PATH_STREAM_LOG}/patch`)
+    @MessagePattern(`${PATH_STREAM_LOG}/post`)
     @ToResponse()
-    async patch(@Body() dto: postStreamLogDto): Promise<postStreamLogRes> {
+    async post (@Body() dto: postStreamLogDto): Promise<postStreamLogRes> {
         return this.StreamLogService.post(dto);
     }
 }
