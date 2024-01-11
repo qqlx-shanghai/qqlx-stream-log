@@ -11,6 +11,8 @@ import StreamLogController from "./log.controller";
 import { StreamLogService } from "./log.service";
 import { StreamLogDao } from "./log.dao";
 
+export const HTTP_PORT = 8002
+
 /** 相关解释
  * @imports 导入一个模块中 exports 的内容，放入公共资源池中
  * @providers 将公共资源池中的内容，放入应用池 controller 之中，所以其才能够使用/注入各种内容

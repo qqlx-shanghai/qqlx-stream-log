@@ -10,7 +10,8 @@ import { DropletModule } from "../_/droplet.module";
 import StreamLogController from "./log.controller";
 import { StreamLogService } from "../rest/log.service";
 import { StreamLogDao } from "../rest/log.dao";
-import { TCP_PORT } from "./_";
+
+export const TCP_PORT = 6002
 
 /** 相关解释
  * @imports 导入一个模块中 exports 的内容，放入公共资源池中

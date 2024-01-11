@@ -5,10 +5,8 @@ import { } from "qqlx-core";
 import { toNumber, toString, toBoolean } from "qqlx-cdk";
 import { getLocalNetworkIPs } from "qqlx-sdk";
 
-import { RestModule } from "./rest/module";
-import { TcpModule } from "./tcp/module";
-import { TCP_PORT } from "./tcp/_"
-import { HTTP_PORT } from "./rest/_"
+import { HTTP_PORT, RestModule } from "./rest/module";
+import { TCP_PORT, TcpModule } from "./tcp/module";
 
 async function bootstrap () {
 
