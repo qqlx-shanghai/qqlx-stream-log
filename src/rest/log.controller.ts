@@ -16,7 +16,7 @@ export default class {
 
     @Post("/get")
     @ToResponse()
-    async get (@Body() dto: getStreamLogDto<StreamLog>) {
+    async get (@Body('dto') dto: getStreamLogDto<StreamLog>) {
         return this.StreamLogService.get(dto);
     }
 }

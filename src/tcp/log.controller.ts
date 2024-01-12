@@ -17,7 +17,7 @@ export default class {
 
     @MessagePattern(`${PATH_STREAM_LOG}/post`)
     @ToResponse()
-    async post (@Body() dto: postStreamLogDto): Promise<postStreamLogRes> {
+    async post (dto: postStreamLogDto): Promise<postStreamLogRes> {
         return this.StreamLogService.post(dto);
     }
 }
